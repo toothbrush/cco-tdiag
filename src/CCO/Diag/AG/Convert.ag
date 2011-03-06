@@ -9,3 +9,6 @@ import Control.Applicative  (Applicative ((<*>)), (<$>))
 
 attr Diag
     syn toPicture :: Picture
+
+sem Diag
+    | lhs.toPicture = undefined
