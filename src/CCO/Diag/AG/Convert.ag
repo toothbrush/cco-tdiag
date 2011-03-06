@@ -7,8 +7,27 @@ import CCO.Tree.Parser      (parseTree, app, arg)
 import Control.Applicative  (Applicative ((<*>)), (<$>))
 }
 
-attr Diag
+attr Diag Diag_
     syn toPicture :: Picture
 
 sem Diag
-    | Diag lhs.toPicture = undefined
+    | Diag lhs.toPicture = @d.toPicture
+
+sem Diag_ 
+    | Program     lhs.toPicture = Picture (1.1,2.2) []
+    | Platform    lhs.toPicture = Picture (2.2, 1.1) [] 
+    | Interpreter lhs.toPicture = Picture (2.2, 1.1) [] 
+    | Compiler    lhs.toPicture = Picture (2.2, 1.1) [] 
+    | Execute     lhs.toPicture = Picture (2.2, 1.1) [] 
+    | Compile     lhs.toPicture = Picture (2.2, 1.1) [] 
+
+
+
+
+
+--    | Program      p  :: {Ident}  l  :: {Ident}
+--    | Platform     m  :: {Ident}
+--    | Interpreter  i  :: {Ident}  l  :: {Ident}  m  :: {Ident}
+--    | Compiler     c  :: {Ident}  l1 :: {Ident}  l2 :: {Ident}  m :: {Ident}
+--    | Execute      d1 :: Diag     d2 :: Diag
+--    | Compile      d1 :: Diag     d2 :: Diag
