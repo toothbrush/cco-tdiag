@@ -2,7 +2,6 @@ imports
 {
 import CCO.SourcePos        (SourcePos)
 import CCO.Tree             (ATerm (App), Tree (fromTree, toTree))
-import CCO.Picture
 import CCO.Picture.AG
 import CCO.Tree.Parser      (parseTree, app, arg)
 import Control.Applicative  (Applicative ((<*>)), (<$>))
@@ -10,33 +9,33 @@ import Control.Applicative  (Applicative ((<*>)), (<$>))
 
 attr Diag 
     syn toPicture :: Picture
-    inh size :: {(Double, Double)}
     inh origin :: {(Double, Double)}
-
-
 
 attr Diag_
     syn toPicture :: Commands
-    inh size      :: {(Double, Double)}
     inh origin    :: {(Double, Double)}
+    syn size :: {(Double, Double)}
 
 sem Diag
-    | Diag lhs.toPicture = Picture @lhs.size @d.toPicture
+    | Diag lhs.toPicture = Picture @d.size @d.toPicture
+
 
 sem Diag_ 
   -- simple 
     | Program     lhs.toPicture = program @lhs.origin @p @l
+                  lhs.size      = (10,10)
     | Platform    lhs.toPicture = [] 
+                  lhs.size      = (10,10)
     | Interpreter lhs.toPicture = [] 
+                  lhs.size      = (10,10)
     | Compiler    lhs.toPicture = [] 
+                  lhs.size      = (10,10)
   -- less simple
     | Execute     lhs.toPicture = [] 
+                  lhs.size      = (10,10)
     | Compile     lhs.toPicture = [] 
+                  lhs.size      = (10,10)
 
---sem Diag_ 
---  -- simple 
---    | Program     lhs.size = head (map sz @lhs.toPicture)
---
 
 
 {
