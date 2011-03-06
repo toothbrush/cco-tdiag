@@ -17,14 +17,18 @@ module CCO.Diag.Convert (
     convert    -- :: Component Diag Picture
 ) where
 
-import CCO.Component                 (Component)
+import CCO.Component                 (Component, component)
+import CCO.Feedback
 import qualified CCO.Component as C  (parser)
 import CCO.Diag.Base                 (Diag (Diag), Diag_ (..))
+import CCO.Diag.AG
 import CCO.Picture
 import CCO.Parsing                   (Parser, eof, sourcePos, (<!>))
 import Control.Applicative
 
 -- | A 'Component' for parsing 'Diag's.
 convert :: Component Diag Picture
-convert = undefined
+convert = component (\d -> do trace_ "Converting Diag to Picture..."
+                              return $ toPicture_Syn_Diag (wrap_Diag (sem_Diag d) Inh_Diag)
+                    )
 

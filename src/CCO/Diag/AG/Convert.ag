@@ -11,4 +11,4 @@ attr Diag
     syn toPicture :: Picture
 
 sem Diag
-    | lhs.toPicture = undefined
+    | Diag lhs.toPicture = undefined
