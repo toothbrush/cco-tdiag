@@ -15,3 +15,4 @@
 module {CCO.Diag.AG}{}{}
 
 include "AG/Base.ag"
+include "AG/Convert.ag"

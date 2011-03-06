@@ -20,7 +20,9 @@ module CCO.Diag (
 
     -- * Parser
   , parser         -- :: Component String Diag
+  , convert        -- :: Component Diag Picture
 ) where
 
 import CCO.Diag.Base      (Ident, Diag (Diag), Diag_ (..))
 import CCO.Diag.Parser    (parser)
+import CCO.Diag.Convert   (convert)
