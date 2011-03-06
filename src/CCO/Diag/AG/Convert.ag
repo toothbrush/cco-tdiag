@@ -2,7 +2,8 @@ imports
 {
 import CCO.SourcePos        (SourcePos)
 import CCO.Tree             (ATerm (App), Tree (fromTree, toTree))
-import CCO.Picture          (Picture (Picture))
+import CCO.Picture
+import CCO.Picture.AG
 import CCO.Tree.Parser      (parseTree, app, arg)
 import Control.Applicative  (Applicative ((<*>)), (<$>))
 }
@@ -14,16 +15,31 @@ sem Diag
     | Diag lhs.toPicture = @d.toPicture
 
 sem Diag_ 
-    | Program     lhs.toPicture = Picture (1.1,2.2) []
+  -- simple 
+    | Program     lhs.toPicture = Picture (1,1) ( [objects @p @l] )
     | Platform    lhs.toPicture = Picture (2.2, 1.1) [] 
     | Interpreter lhs.toPicture = Picture (2.2, 1.1) [] 
     | Compiler    lhs.toPicture = Picture (2.2, 1.1) [] 
+  -- less simple
     | Execute     lhs.toPicture = Picture (2.2, 1.1) [] 
     | Compile     lhs.toPicture = Picture (2.2, 1.1) [] 
 
 
 
+ -- \put(7.5,20){\line(1,0){50}}
+ -- \put(7.5,20){\line(0,1){15}}
+ -- \put(7.5,35){\line(-1,2){7.5}}
+ -- \put(57.5,35){\line(1,2){7.5}}
+ -- \put(57.5,20){\line(0,1){15}}
+ -- \put(0,50){\line(1,0){65}}
+ -- \put(7.5,35){\makebox(50,15){hello}}
+ -- \put(7.5,20){\makebox(50,15){UUAG}}
 
+{
+objects :: Ident -> Ident -> Command
+objects p l = Put (1,1) (Makebox (1,1) (p ++ l))
+
+}
 
 --    | Program      p  :: {Ident}  l  :: {Ident}
 --    | Platform     m  :: {Ident}
@@ -31,3 +47,25 @@ sem Diag_
 --    | Compiler     c  :: {Ident}  l1 :: {Ident}  l2 :: {Ident}  m :: {Ident}
 --    | Execute      d1 :: Diag     d2 :: Diag
 --    | Compile      d1 :: Diag     d2 :: Diag
+
+
+
+-- 
+-- -------------------------------------------------------------------------------
+-- -- Syntax
+-- -------------------------------------------------------------------------------
+-- 
+-- data Object
+--   | Line        slope :: {(Int, Int)}          len  :: {Double}
+--   | Makebox     dim   :: {(Double, Double)}    body :: {String}
+--   | Framebox    dim   :: {(Double, Double)}    body :: {String}
+-- 
+-- data Command
+--   | Put         pos   :: {(Double, Double)}    obj  :: Object
+-- 
+-- type Commands = [Command]
+-- 
+-- data Picture
+--   | Picture     dim   :: {(Double, Double)}    cmds :: Commands
+
+
