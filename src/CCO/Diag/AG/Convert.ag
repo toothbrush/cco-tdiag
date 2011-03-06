@@ -1,0 +1,11 @@
+imports
+{
+import CCO.SourcePos        (SourcePos)
+import CCO.Tree             (ATerm (App), Tree (fromTree, toTree))
+import CCO.Picture          (Picture (Picture))
+import CCO.Tree.Parser      (parseTree, app, arg)
+import Control.Applicative  (Applicative ((<*>)), (<$>))
+}
+
+attr Diag
+    syn toPicture :: Picture
