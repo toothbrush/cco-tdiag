@@ -7,7 +7,8 @@ license:               AllRightsReserved
 license-file:          LICENSE
 category:              Compilers/Interpreters
 copyright:             (c) 2008 Utrecht University
-author:                Stefan Holdermans
+author:                Stefan Holdermans,
+                       Paul van der Walt
 maintainer:            Stefan Holdermans <stefan@cs.uu.nl>
 stability:             provisional
 homepage:              http://www.cs.uu.nl/wiki/Cco/MiniProjects
@@ -30,4 +31,10 @@ executable pp-picture
   main-is:             PpPicture.hs
   build-depends:       base, cco >= 0.0.4
   other-modules:       CCO.Picture, CCO.Picture.AG
+  hs-source-dirs:      src
+
+executable tdiag2picture
+  main-is:             TDiag2Picture.hs
+  build-depends:       base, cco >= 0.0.4
+  other-modules:       CCO.Diag, CCO.Diag.AG, CCO.Diag.Base
   hs-source-dirs:      src

@@ -10,7 +10,10 @@ src/CCO/Picture/AG.hs : src/CCO/Picture/AG.ag src/CCO/Picture/AG/Base.ag \
 		src/CCO/Picture/AG/Printing.ag
 	uuagc -Hdcfws -P src/CCO/Picture src/CCO/Picture/AG.ag
 
-haskell : src/CCO/Diag/AG.hs src/CCO/Picture/AG.hs
+src/CCO/Convert/AG.hs : src/CCO/Convert/AG.ag src/CCO/Convert/AG/Base.ag
+	uuagc -Hdcfws -P src/CCO/Convert\;src/CCO/Diag src/CCO/Convert/AG.ag
+
+haskell : src/CCO/Diag/AG.hs src/CCO/Picture/AG.hs src/CCO/Convert/AG.hs
 	runhaskell Setup.lhs configure $(CABAL-CONFIGURE-FLAGS)
 	runhaskell Setup.lhs build $(CABAL-BUILD-FLAGS)
 

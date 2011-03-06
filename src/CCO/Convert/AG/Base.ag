@@ -1,0 +1,15 @@
+imports
+{
+-- import CCO.Tree             (ATerm (App), Tree (fromTree, toTree))
+-- import CCO.Tree.Parser      (parseTree, app, arg)
+-- import Control.Applicative  (Applicative ((<*>)), (<$>))
+import CCO.Picture
+import CCO.Diag (Diag, Diag_, Diag (Diag))
+}
+
+attr Diag
+    syn toPicture :: Picture
+
+sem Diag
+  | Diag  lhs.toPicture = test
+    
