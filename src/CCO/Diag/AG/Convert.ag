@@ -8,35 +8,45 @@ import CCO.Tree.Parser      (parseTree, app, arg)
 import Control.Applicative  (Applicative ((<*>)), (<$>))
 }
 
-attr Diag Diag_
+attr Diag 
     syn toPicture :: Picture
+    inh size :: {(Double, Double)}
+    inh origin :: {(Double, Double)}
+
+
+
+attr Diag_
+    syn toPicture :: Commands
+    inh size      :: {(Double, Double)}
     inh origin    :: {(Double, Double)}
 
 sem Diag
-    | Diag lhs.toPicture = @d.toPicture
+    | Diag lhs.toPicture = Picture @lhs.size @d.toPicture
 
 sem Diag_ 
   -- simple 
-    | Program     lhs.toPicture = Picture (1,1) ( program @lhs.origin @p @l )
-    | Platform    lhs.toPicture = Picture (2.2, 1.1) [] 
-    | Interpreter lhs.toPicture = Picture (2.2, 1.1) [] 
-    | Compiler    lhs.toPicture = Picture (2.2, 1.1) [] 
+    | Program     lhs.toPicture = program @lhs.origin @p @l
+    | Platform    lhs.toPicture = [] 
+    | Interpreter lhs.toPicture = [] 
+    | Compiler    lhs.toPicture = [] 
   -- less simple
-    | Execute     lhs.toPicture = Picture (2.2, 1.1) [] 
-    | Compile     lhs.toPicture = Picture (2.2, 1.1) [] 
+    | Execute     lhs.toPicture = [] 
+    | Compile     lhs.toPicture = [] 
 
+--sem Diag_ 
+--  -- simple 
+--    | Program     lhs.size = head (map sz @lhs.toPicture)
+--
 
-
- -- \put(7.5,20){\line(1,0){50}}
- -- \put(7.5,20){\line(0,1){15}}
- -- \put(7.5,35){\line(-1,2){7.5}}
- -- \put(57.5,35){\line(1,2){7.5}}
- -- \put(57.5,20){\line(0,1){15}}
- -- \put(0,50){\line(1,0){65}}
- -- \put(7.5,35){\makebox(50,15){hello}}
- -- \put(7.5,20){\makebox(50,15){UUAG}}
 
 {
+
+sz :: Command -> (Double, Double)
+sz (Put _ o) = szO o
+            where szO (Line _ len)   = (len, len)
+                  szO (Makebox d _)  = d
+                  szO (Framebox d _) = d
+
 program :: (Double,Double) -> Ident -> Ident -> Commands
 program (x,y) p l = 
               [ Put (x+7.5, y+20) (Line ( 1, 0) 50)
