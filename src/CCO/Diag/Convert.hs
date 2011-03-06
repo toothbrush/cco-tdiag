@@ -29,6 +29,6 @@ import Control.Applicative
 -- | A 'Component' for parsing 'Diag's.
 convert :: Component Diag Picture
 convert = component (\d -> do trace_ "Converting Diag to Picture..."
-                              return $ toPicture_Syn_Diag (wrap_Diag (sem_Diag d) (Inh_Diag (4,4) (1,1)))
+                              return $ toPicture_Syn_Diag (wrap_Diag (sem_Diag d) (Inh_Diag (1,1)))
                     )
 
