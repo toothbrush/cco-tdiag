@@ -10,13 +10,14 @@ import Control.Applicative  (Applicative ((<*>)), (<$>))
 
 attr Diag Diag_
     syn toPicture :: Picture
+    inh origin    :: {(Double, Double)}
 
 sem Diag
     | Diag lhs.toPicture = @d.toPicture
 
 sem Diag_ 
   -- simple 
-    | Program     lhs.toPicture = Picture (1,1) ( [objects @p @l] )
+    | Program     lhs.toPicture = Picture (1,1) ( program @lhs.origin @p @l )
     | Platform    lhs.toPicture = Picture (2.2, 1.1) [] 
     | Interpreter lhs.toPicture = Picture (2.2, 1.1) [] 
     | Compiler    lhs.toPicture = Picture (2.2, 1.1) [] 
@@ -36,8 +37,17 @@ sem Diag_
  -- \put(7.5,20){\makebox(50,15){UUAG}}
 
 {
-objects :: Ident -> Ident -> Command
-objects p l = Put (1,1) (Makebox (1,1) (p ++ l))
+program :: (Double,Double) -> Ident -> Ident -> Commands
+program (x,y) p l = 
+              [ Put (x+7.5, y+20) (Line ( 1, 0) 50)
+              , Put (x+7.5, y+20) (Line ( 0, 1) 15)
+              , Put (x+7.5, y+35) (Line (-1, 2) 7.5)
+              , Put (x+57.5,y+35) (Line ( 1, 2) 7.5)
+              , Put (x+57.5,y+20) (Line ( 0, 1) 15)
+              , Put (x+  0, y+50) (Line ( 1, 0) 65)
+              , Put (x+7.5, y+35) (Makebox (50,15) p)
+              , Put (x+7.5, y+20) (Makebox (50,15) l)
+              ]
 
 }
 
