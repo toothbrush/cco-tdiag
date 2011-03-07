@@ -44,7 +44,7 @@ sem Diag_
 execute :: (Double,Double) -> Picture -> Picture -> Commands
 execute (x,y) (Picture (w1,h1) cs1) (Picture (w2,h2) cs2) = cs
         where cs = (map fLeft cs2) ++ (map fHeight cs1)
-              fHeight (Put (posx, posy) o) = trace (show (posy)) (Put (posx      ,posy+h2) o)
+              fHeight (Put (posx, posy) o) = Put (posx      ,posy+10) o
               fLeft   (Put (posx, posy) o) = Put (7.5+ posx ,posy   ) o
 
 interpreter :: (Double,Double) -> Ident -> Ident -> Ident -> Commands
