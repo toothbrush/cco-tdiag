@@ -33,13 +33,16 @@ sem Diag_
                   lhs.size      = (150,30)
   -- less simple
     | Execute     lhs.toPicture = execute @lhs.origin @d1.toPicture @d2.toPicture
-                  lhs.size      = (0,0)
+                  lhs.size      = sizeExecute @d1.toPicture @d2.toPicture
     | Compile     lhs.toPicture = [] --compile @lhs.origin @d1.toPicture @d2.toPicture
                   lhs.size      = (0,0)
 
 
 
 {
+
+sizeExecute :: Picture -> Picture -> (Double, Double)
+sizeExecute (Picture (w1,h1) cs1) (Picture (w2,h2) cs2) = (max w1 w2, h1+h2)
 
 execute :: (Double,Double) -> Picture -> Picture -> Commands
 execute (x,y) (Picture (w1,h1) cs1) (Picture (w2,h2) cs2) = cs
