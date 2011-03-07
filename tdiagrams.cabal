@@ -3,10 +3,10 @@ version:               0.0.4
 synopsis:              Utilities for drawing T-diagrams in LaTeX
 description:           Project distribution for Mini Project B of the course on
                        Compiler Construction (INFOMCCO) at Utrecht University.
-license:               AllRightsReserved
+license:               MIT
 license-file:          LICENSE
 category:              Compilers/Interpreters
-copyright:             (c) 2008 Utrecht University
+copyright:             (c) 2011 Paul van der Walt
 author:                Stefan Holdermans,
                        Paul van der Walt
 maintainer:            Stefan Holdermans <stefan@cs.uu.nl>
@@ -14,9 +14,9 @@ stability:             provisional
 homepage:              http://www.cs.uu.nl/wiki/Cco/MiniProjects
 tested-with:           GHC == 6.8.2, GHC == 6.8.3, GHC == 6.10.1
 build-type:            Simple
-cabal-version:         >= 1.2
-extra-source-files:    AUTHORS, Makefile, src/CCO/Diag/TC-AG.ag,
-                       README, src/CCO/Diag/C-AG.ag
+cabal-version:         >= 1.4
+extra-source-files:    AUTHORS, Makefile, src/CCO/Diag/TypeCheckAG.ag,
+                       README, src/CCO/Diag/ConvertAG.ag
                        src/CCO/Diag/AG/Base.ag, src/CCO/Picture/AG.ag,
                        src/CCO/Picture/AG/Base.ag, src/CCO/Diag/AG/Convert.ag,
                        src/CCO/Picture/AG/Printing.ag
