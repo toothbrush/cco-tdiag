@@ -9,40 +9,61 @@ import Debug.Trace
 }
 
 attr Diag 
-    syn toPicture :: Picture
-    inh origin :: {(Double, Double)}
+    syn toPicture   :: Picture
+    inh origin      :: {(Double, Double)}
+    syn cpinf       :: Ident
+    syn size        :: {(Double, Double)}
 
 attr Diag_
-    syn toPicture :: Commands
-    inh origin    :: {(Double, Double)}
-    syn size :: {(Double, Double)}
+    syn toPicture   :: Commands
+    inh origin      :: {(Double, Double)}
+    syn cpinf       :: Ident
+    syn size        :: {(Double, Double)}
 
 sem Diag
     | Diag lhs.toPicture = Picture @d.size @d.toPicture
+           lhs.cpinf     = @d.cpinf
+           lhs.size      = @d.size
 
 
 sem Diag_ 
   -- simple 
     | Program     lhs.toPicture = program @lhs.origin @p @l
                   lhs.size      = (65,30)
+                  lhs.cpinf = @p
     | Platform    lhs.toPicture = platform @lhs.origin @m
                   lhs.size      = (50,30)
+                  lhs.cpinf = "undefined"
     | Interpreter lhs.toPicture = interpreter @lhs.origin @i @l @m
                   lhs.size      = (50,30)
+                  lhs.cpinf = "undefined"
     | Compiler    lhs.toPicture = compiler @lhs.origin @c @l1 @l2 @m
                   lhs.size      = (150,30)
+                  lhs.cpinf = @l2
   -- less simple
     | Execute     lhs.toPicture = execute @lhs.origin @d1.toPicture @d2.toPicture
                   lhs.size      = sizeExecute @d1.toPicture @d2.toPicture
-    | Compile     lhs.toPicture = [] --compile @lhs.origin @d1.toPicture @d2.toPicture
-                  lhs.size      = (0,0)
+                  lhs.cpinf = "undefined"
+    | Compile     lhs.toPicture = (compile @lhs.origin @d1.toPicture @d2.toPicture)
+                                        ++
+                                  (program (fst @d1.size - 2*7.5 + 150, 0) @d1.cpinf @d2.cpinf)
+                  lhs.cpinf = "undefined"
+                  lhs.size      = sizeCompile  @d1.toPicture @d2.toPicture
 
 
 
 {
 
+sizeCompile :: Picture -> Picture -> (Double, Double)
+sizeCompile (Picture (w1,h1) cs1) (Picture (w2,h2) cs2) = (max w1 w2, h1+h2)
+
 sizeExecute :: Picture -> Picture -> (Double, Double)
 sizeExecute (Picture (w1,h1) cs1) (Picture (w2,h2) cs2) = (max w1 w2, h1+h2)
+
+compile :: (Double,Double) -> Picture -> Picture -> Commands
+compile (x,y) (Picture (w1,h1) cs1) (Picture (w2,h2) cs2) = cs
+        where cs = cs1 ++ (map fLeft cs2) 
+              fLeft   (Put (posx, posy) o) = Put (w1 + posx -7.5 ,posy   ) o
 
 execute :: (Double,Double) -> Picture -> Picture -> Commands
 execute (x,y) (Picture (w1,h1) cs1) (Picture (w2,h2) cs2) = cs
