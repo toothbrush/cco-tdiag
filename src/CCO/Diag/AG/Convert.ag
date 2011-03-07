@@ -5,6 +5,7 @@ import CCO.Tree             (ATerm (App), Tree (fromTree, toTree))
 import CCO.Picture.AG
 import CCO.Tree.Parser      (parseTree, app, arg)
 import Control.Applicative  (Applicative ((<*>)), (<$>))
+import Debug.Trace
 }
 
 attr Diag 
@@ -31,14 +32,20 @@ sem Diag_
     | Compiler    lhs.toPicture = compiler @lhs.origin @c @l1 @l2 @m
                   lhs.size      = (150,30)
   -- less simple
-    | Execute     lhs.toPicture = [] --execute @lhs.origin @d1 @d2
+    | Execute     lhs.toPicture = execute @lhs.origin @d1.toPicture @d2.toPicture
                   lhs.size      = (0,0)
-    | Compile     lhs.toPicture = [] --compile @lhs.origin @d1 @d2
+    | Compile     lhs.toPicture = [] --compile @lhs.origin @d1.toPicture @d2.toPicture
                   lhs.size      = (0,0)
 
 
 
 {
+
+execute :: (Double,Double) -> Picture -> Picture -> Commands
+execute (x,y) (Picture (w1,h1) cs1) (Picture (w2,h2) cs2) = cs
+        where cs = (map fLeft cs2) ++ (map fHeight cs1)
+              fHeight (Put (posx, posy) o) = trace (show (posy)) (Put (posx      ,posy+h2) o)
+              fLeft   (Put (posx, posy) o) = Put (7.5+ posx ,posy   ) o
 
 interpreter :: (Double,Double) -> Ident -> Ident -> Ident -> Commands
 interpreter (x,y) i l m = 
@@ -57,8 +64,8 @@ compiler (x,y) c l1 l2 m =
               , Put (x+   0,y+30) (Line ( 1, 0) 150)
               , Put (x+ 150,y+30) (Line ( 0,-1) 10)
               , Put (x+ 150,y+20) (Line (-1, 0) 50)
-              , Put (x+ 100,y+ 0) (Line ( 0,-1) 20)
-              , Put (x+  00,y+20) (Line (-1, 0) 50)
+              , Put (x+ 100,y+20) (Line ( 0,-1) 20)
+              , Put (x+ 100,y+ 0) (Line (-1, 0) 50)
               , Put (x+  0, y+20) (Makebox (50,10) l1)
               , Put (x+ 50, y+20) (Makebox (50,10) "$\\longrightarrow$")
               , Put (x+100, y+20) (Makebox (50,10) l2)
@@ -91,10 +98,6 @@ program (x,y) p l =
 
 }
 
---    | Interpreter  i  :: {Ident}  l  :: {Ident}  m  :: {Ident}
---    | Compiler     c  :: {Ident}  l1 :: {Ident}  l2 :: {Ident}  m :: {Ident}
---    | Execute      d1 :: Diag     d2 :: Diag
---    | Compile      d1 :: Diag     d2 :: Diag
 
 
 
