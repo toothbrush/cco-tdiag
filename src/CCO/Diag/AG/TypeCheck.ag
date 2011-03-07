@@ -27,13 +27,3 @@ sem Diag_
     | Execute     lhs.typecheck = Execute @d1.typecheck @d2.typecheck
     | Compile     lhs.typecheck = Compile @d1.typecheck @d2.typecheck
 
-
-  {-
-      | Program      p  :: {Ident}  l  :: {Ident}
-        | Platform     m  :: {Ident}
-          | Interpreter  i  :: {Ident}  l  :: {Ident}  m  :: {Ident}
-            | Compiler     c  :: {Ident}  l1 :: {Ident}  l2 :: {Ident}  m :: {Ident}
-              | Execute      d1 :: Diag     d2 :: Diag
-                | Compile      d1 :: Diag     d2 :: Diag
-
--}
