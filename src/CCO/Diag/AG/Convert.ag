@@ -55,7 +55,7 @@ sem Diag_
 {
 
 sizeCompile :: Picture -> Picture -> (Double, Double)
-sizeCompile (Picture (w1,h1) cs1) (Picture (w2,h2) cs2) = (max w1 w2, h1+h2)
+sizeCompile (Picture (w1,h1) cs1) (Picture (w2,h2) cs2) = (w1 + w2 + 50, max h1 h2 +15)
 
 sizeExecute :: Picture -> Picture -> (Double, Double)
 sizeExecute (Picture (w1,h1) cs1) (Picture (w2,h2) cs2) = (max w1 w2, h1+h2)
