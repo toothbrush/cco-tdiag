@@ -12,7 +12,7 @@
 --
 -------------------------------------------------------------------------------
 
-module {CCO.Diag.AG}{}{}
+module {CCO.Diag.TypeCheckAG}{}{}
 
 include "AG/Base.ag"
-include "AG/Convert.ag"
+include "AG/TypeCheck.ag"

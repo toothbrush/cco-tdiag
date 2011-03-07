@@ -15,8 +15,8 @@ homepage:              http://www.cs.uu.nl/wiki/Cco/MiniProjects
 tested-with:           GHC == 6.8.2, GHC == 6.8.3, GHC == 6.10.1
 build-type:            Simple
 cabal-version:         >= 1.2
-extra-source-files:    AUTHORS, Makefile, src/CCO/Diag/AG.ag,
-                       README,
+extra-source-files:    AUTHORS, Makefile, src/CCO/Diag/TC-AG.ag,
+                       README, src/CCO/Diag/C-AG.ag
                        src/CCO/Diag/AG/Base.ag, src/CCO/Picture/AG.ag,
                        src/CCO/Picture/AG/Base.ag, src/CCO/Diag/AG/Convert.ag,
                        src/CCO/Picture/AG/Printing.ag
@@ -24,7 +24,7 @@ extra-source-files:    AUTHORS, Makefile, src/CCO/Diag/AG.ag,
 executable parse-tdiag
   main-is:             ParseTDiag.hs
   build-depends:       base, cco >= 0.0.4
-  other-modules:       CCO.Diag, CCO.Diag.AG, CCO.Diag.Base, CCO.Diag.Lexer,
+  other-modules:       CCO.Diag, CCO.Diag.ConvertAG, CCO.Diag.Base, CCO.Diag.Lexer,
                        CCO.Diag.Parser
   hs-source-dirs:      src
 
@@ -34,8 +34,14 @@ executable pp-picture
   other-modules:       CCO.Picture, CCO.Picture.AG
   hs-source-dirs:      src
 
+executable tc-tdiag
+  main-is:             TCTDiag.hs
+  build-depends:       base, cco >= 0.0.4, uuagc
+  other-modules:       CCO.Diag, CCO.Diag.TypeCheckAG, CCO.Diag.Base
+  hs-source-dirs:      src
+
 executable tdiag2picture
   main-is:             TDiag2Picture.hs
   build-depends:       base, cco >= 0.0.4, uuagc
-  other-modules:       CCO.Diag, CCO.Diag.AG, CCO.Diag.Base
+  other-modules:       CCO.Diag, CCO.Diag.ConvertAG, CCO.Diag.Base
   hs-source-dirs:      src

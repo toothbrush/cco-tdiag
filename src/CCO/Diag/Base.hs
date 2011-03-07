@@ -19,5 +19,5 @@ module CCO.Diag.Base (
   , Diag_ (..)     -- instances: Tree
 ) where
 
-import CCO.Diag.AG
+import CCO.Diag.ConvertAG
 import CCO.Types

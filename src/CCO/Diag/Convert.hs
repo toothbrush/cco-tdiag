@@ -21,7 +21,7 @@ import CCO.Component                 (Component, component)
 import CCO.Feedback
 import qualified CCO.Component as C  (parser)
 import CCO.Diag.Base                 (Diag (Diag), Diag_ (..))
-import CCO.Diag.AG
+import CCO.Diag.ConvertAG
 import CCO.Picture
 import CCO.Parsing                   (Parser, eof, sourcePos, (<!>))
 import Control.Applicative
