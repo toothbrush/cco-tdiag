@@ -16,8 +16,9 @@ tested-with:           GHC == 6.8.2, GHC == 6.8.3, GHC == 6.10.1
 build-type:            Simple
 cabal-version:         >= 1.2
 extra-source-files:    AUTHORS, Makefile, src/CCO/Diag/AG.ag,
+                       README,
                        src/CCO/Diag/AG/Base.ag, src/CCO/Picture/AG.ag,
-                       src/CCO/Picture/AG/Base.ag, 
+                       src/CCO/Picture/AG/Base.ag, src/CCO/Diag/AG/Convert.ag,
                        src/CCO/Picture/AG/Printing.ag
 
 executable parse-tdiag
@@ -35,6 +36,6 @@ executable pp-picture
 
 executable tdiag2picture
   main-is:             TDiag2Picture.hs
-  build-depends:       base, cco >= 0.0.4
+  build-depends:       base, cco >= 0.0.4, uuagc
   other-modules:       CCO.Diag, CCO.Diag.AG, CCO.Diag.Base
   hs-source-dirs:      src

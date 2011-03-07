@@ -1,0 +1,131 @@
+README file for the 2nd assignment of Compiler Construction
+
+T-Diagrams
+
+9 March, 2011
+
+Author: Paul van der Walt (3120805)
+
+------------------------------------------------------------------------------------------
+
+FOR THE RUSHED
+
+$ tar xvvzf tdiagrams-0.0.4.tar.gz
+$ cd tdiagrams-0.0.4/
+$ cabal configure
+$ cabal build
+$ cabal install
+$ cat exampleX.tdiag | parse-tdiag | tc-tdiag | tdiag2picture | pp-picture > output.tex
+$ open output.tex
+
+------------------------------------------------------------------------------------------
+
+FOR THE IMPATIENT
+
+To get started, unpack this tarball (evidently this was successful if you're reading
+this), and run:
+
+$ cabal configure
+$ cabal build
+
+and optionally 
+
+$ cabal install # this is so you can run the commands directly, 
+                # without invocations like `dist/build/parse-tdiag/parse-tdiag`. 
+
+For documentation:
+
+$ cabal haddock
+
+Documentation gets placed in dist/doc/html/tdiagrams/index.html (this is a good starting
+point). To try out the various examples, assuming you have run `cabal install`, try 
+the following:
+
+$ cat exampleX.tdiag | parse-tdiag | tc-tdiag | tdiag2picture | pp-picture > output.tex
+
+or if you'd rather not install:
+
+$ cat exampleX.tdiag | dist/build/parse-tdiag/parse-tdiag | dist/build/tc-tdiag/tc-tdiag \
+                     | dist/build/tdiag2picture/tdiag2picture | dist/build/pp-picture/pp-picture \
+                     > output.tex
+
+and open the generated file, output.tex, in a text editor, or, optionally, compile with PDFLaTeX.
+To do this though, you will need to wrap the output in a 
+
+\documentclass{article}
+\begin{document}
+...
+\end{document}
+
+format. The T-Diagram process may take a while, so don't be surprised if it's
+not finished after 5 seconds. 
+
+-------------------------------------------------------------------------------------------
+
+EXAMPLES
+
+A number of examples are included, see ./example?.tdiag, the specifics of each examle
+will be explained in the comments. The examples illustrate the features of this 
+implementation of tdiagrams. 
+
+-------------------------------------------------------------------------------------------
+
+###
+# TODO change from here on
+
+
+FOR THE PATIENT (or the more curious)
+
+Note that instead of a Makefile, Cabal's more advanced build system is used. This solves a 
+lot of ugly things one runs into when using Makefiles for a small Haskell project.
+
+Features
+
+This implementation of BibTeX2HTML is not comprehensive, i.e. there are some aspects of 
+the BibTeX DSL that aren't handled yet, but it provides a very reasonable subset of the 
+BibTeX features, and the author believes that it is useful for most mainstream databases.
+The most notable features are listed below.
+
+* Warns about unknown fields, and hides these
+* Checks that required fields are filled in
+* Forgiving parsing, thanks to use of UU-Parsinglib
+* Supports year-field without quotes
+* Support for the @preamble construct
+* Automatic sorting of fields within entries, and entries themselves
+* Checks for duplicate keys (and only displays first definition)
+* Allows for comments (% ...), both after code and on their own line
+* Filters duplicate fields in entries (i.e. "author" defined twice)
+* Warnings for all detected errors
+
+In a future version, possibilities for improvement include:
+
+* Support for escaping characters
+* Automatic formatting of authors' names
+* Nicer hyperlinks (i.e. Johnson 2002 -> [J02])
+* Support for variables (@string) 
+
+Requirements:
+
+This package has been tested on Mac OS X.6 and Linux 2.6.35, using GHC6.12.3 and GHC7.0.1.
+Also required are at least the following packages (can be obtained via the Haskell Cabal):
+
+- cco
+- uu-parsinglib
+- haskell98
+
+Documentation:
+
+For extensive documentation, as well as a report detailing implementational details and 
+architecture of this suite, we refer the reader to the Haddock generated documentation. 
+This can be obtained by running
+
+$ cabal haddock
+
+and opening the resulting file, dist/doc/html/bibtex2html/index.html. This file includes
+an introduction as well as links to the rest of the documentation. For completeness, a
+PDF version of the Haddock documentation is included, but the recommendation is to 
+use the HTML version. The PDF version of Haddock can be found in ./haddock.pdf. It can be
+generated from source by running:
+
+$ cd latex-doc/
+$ pdflatex main
