@@ -20,3 +20,4 @@ module CCO.Diag.Base (
 ) where
 
 import CCO.Diag.AG
+import CCO.Types

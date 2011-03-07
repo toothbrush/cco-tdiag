@@ -2,6 +2,7 @@ imports
 {
 import CCO.SourcePos        (SourcePos)
 import CCO.Tree             (ATerm (App), Tree (fromTree, toTree))
+import CCO.Types
 import CCO.Tree.Parser      (parseTree, app, arg)
 import Control.Applicative  (Applicative ((<*>)), (<$>))
 }
@@ -9,10 +10,6 @@ import Control.Applicative  (Applicative ((<*>)), (<$>))
 -------------------------------------------------------------------------------
 -- Syntax
 -------------------------------------------------------------------------------
-
-{
-type Ident = String
-}
 
 data Diag_
   | Program      p  :: {Ident}  l  :: {Ident}
