@@ -23,28 +23,59 @@ sem Diag
 sem Diag_ 
   -- simple 
     | Program     lhs.toPicture = program @lhs.origin @p @l
-                  lhs.size      = (10,10)
-    | Platform    lhs.toPicture = [] 
-                  lhs.size      = (10,10)
-    | Interpreter lhs.toPicture = [] 
-                  lhs.size      = (10,10)
-    | Compiler    lhs.toPicture = [] 
-                  lhs.size      = (10,10)
+                  lhs.size      = (65,30)
+    | Platform    lhs.toPicture = platform @lhs.origin @m
+                  lhs.size      = (50,30)
+    | Interpreter lhs.toPicture = interpreter @lhs.origin @i @l @m
+                  lhs.size      = (50,30)
+    | Compiler    lhs.toPicture = compiler @lhs.origin @c @l1 @l2 @m
+                  lhs.size      = (150,30)
   -- less simple
-    | Execute     lhs.toPicture = [] 
-                  lhs.size      = (10,10)
-    | Compile     lhs.toPicture = [] 
-                  lhs.size      = (10,10)
+    | Execute     lhs.toPicture = [] --execute @lhs.origin @d1 @d2
+                  lhs.size      = (0,0)
+    | Compile     lhs.toPicture = [] --compile @lhs.origin @d1 @d2
+                  lhs.size      = (0,0)
 
 
 
 {
 
-sz :: Command -> (Double, Double)
-sz (Put _ o) = szO o
-            where szO (Line _ len)   = (len, len)
-                  szO (Makebox d _)  = d
-                  szO (Framebox d _) = d
+interpreter :: (Double,Double) -> Ident -> Ident -> Ident -> Commands
+interpreter (x,y) i l m = 
+              [ Put (x+  0, y+ 0) (Framebox (50,30) [])
+              , Put (x+  0, y+20) (Makebox (50,10) l)
+              , Put (x+  0, y+10) (Makebox (50,10) i)
+              , Put (x+  0, y+ 0) (Makebox (50,10) m)
+              ]
+
+
+compiler :: (Double,Double) -> Ident -> Ident -> Ident -> Ident -> Commands
+compiler (x,y) c l1 l2 m = 
+              [ Put (x+ 50, y+ 0) (Line ( 0, 1) 20)
+              , Put (x+ 50, y+20) (Line (-1, 0) 50)
+              , Put (x+  0, y+20) (Line ( 0, 1)  10)
+              , Put (x+   0,y+30) (Line ( 1, 0) 150)
+              , Put (x+ 150,y+30) (Line ( 0,-1) 10)
+              , Put (x+ 150,y+20) (Line (-1, 0) 50)
+              , Put (x+ 100,y+ 0) (Line ( 0,-1) 20)
+              , Put (x+  00,y+20) (Line (-1, 0) 50)
+              , Put (x+  0, y+20) (Makebox (50,10) l1)
+              , Put (x+ 50, y+20) (Makebox (50,10) "$\\longrightarrow$")
+              , Put (x+100, y+20) (Makebox (50,10) l2)
+              , Put (x+ 50, y+10) (Makebox (50,10) c)
+              , Put (x+ 50, y+ 0) (Makebox (50,10) m)
+              ]
+
+
+platform :: (Double,Double) -> Ident -> Commands
+platform (x,y) m = 
+              [ Put (x+  0, y+15) (Line ( 5,-3) 25)
+              , Put (x+ 25, y+ 0) (Line ( 5, 3) 25)
+              , Put (x+  0, y+15) (Line ( 0, 1)  15)
+              , Put (x+   0,y+30) (Line ( 1, 0)  50)
+              , Put (x+  50,y+30) (Line ( 0,-1) 15)
+              , Put (x+  0, y+15) (Makebox (50,15) m)
+              ]
 
 program :: (Double,Double) -> Ident -> Ident -> Commands
 program (x,y) p l = 
@@ -60,8 +91,6 @@ program (x,y) p l =
 
 }
 
---    | Program      p  :: {Ident}  l  :: {Ident}
---    | Platform     m  :: {Ident}
 --    | Interpreter  i  :: {Ident}  l  :: {Ident}  m  :: {Ident}
 --    | Compiler     c  :: {Ident}  l1 :: {Ident}  l2 :: {Ident}  m :: {Ident}
 --    | Execute      d1 :: Diag     d2 :: Diag
