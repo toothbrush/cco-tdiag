@@ -31,6 +31,18 @@ In the next two subsections a slightly more detailed description will be given a
 
 \subsection{Type checking}
 
+To enable type checking, a few attributes are defined on \emph{Diag}s. 
+
+\begin{itemize}
+    \item \texttt{typecheck} -- This returns the original tree along with a list of \emph{TypeError}s. If this list is empty, all checks were successful. 
+    \item \texttt{thetype} -- The resulting type of the block, a tuple (\emph{Ident}, \emph{Ident}) with input type (if any, as with a compiler) and output type (for a program this is it's language, for a compiler the language it compiles to, etc.).
+    \item \texttt{category} The sort of block, i.e. program, execute, etc. 
+    \item \texttt{pos} -- Just an inherited attribute, reflecting where the given object was parsed in the original file. Per diagram element (i.e. \emph{Program}, \emph{Compile}, etc.)
+\end{itemize}
+
+The function \texttt{typecheck} is where the work happens. We have a case for each type of Diagram, where the 4 primitives (program, platform, interpreter, compiler) are by definition always well typed (as there is no combinating happening). 
+
+For the cases compile and execute, functions are called to check if \texttt{d1} and \texttt{d2} (being the elements to be combined) fit given the desired operation. These checks are found in \texttt{TypeCheckFunctions.hs}, and they make sure no silly combinations are made (such as compiling a platform) and that the types all fit.  
 
 
 \subsection{Converting}
