@@ -41,13 +41,13 @@ sem Diag_
                                                 ++ (snd @d1.typecheck)
                                                 ++ (snd @d2.typecheck)
                                            )
-                  lhs.thetype   = undefined
+                  lhs.thetype   = "execution" -- this shouldn't happen.
     | Compile     lhs.typecheck = (Compile (fst @d1.typecheck) (fst @d2.typecheck)
                                            , [] 
                                                 ++ (snd @d1.typecheck)
                                                 ++ (snd @d2.typecheck)
                                            )
-                  lhs.thetype   = undefined
+                  lhs.thetype   = @d2.thetype
 
 {
 checkExecution :: SourcePos -> Ident -> Ident -> [TypeError]
