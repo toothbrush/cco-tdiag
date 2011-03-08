@@ -19,7 +19,9 @@ module CCO.Diag.TypeCheck (
     Diag
 ) where
 
+import Prelude hiding (show)
 import CCO.Component                 (Component, component)
+import Control.Monad
 import CCO.Types
 import CCO.Feedback
 import qualified CCO.Component as C  (parser)
@@ -29,11 +31,8 @@ import Control.Applicative
 
 -- | A 'Component' for type checking Diags
 typecheck :: Component Diag Diag
-typecheck = component $ doCheck
-
-doCheck :: Diag -> Feedback Diag
-doCheck d = do let (dChecked, errs) = typecheck_Syn_Diag (wrap_Diag (sem_Diag d) (Inh_Diag))
-               if null errs then return ()
-               	            else do sequence $ map (error . CCO.Types.show) errs
-               	            	    return ()
-               return dChecked
+typecheck = component  (\d -> do let (dChecked, errs) = typecheck_Syn_Diag (wrap_Diag (sem_Diag d) Inh_Diag)
+                                 (unless (null errs) $
+                                    mapM_ (error . show) errs)
+                                 return dChecked
+                       )
