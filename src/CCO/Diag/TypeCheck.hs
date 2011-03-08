@@ -34,6 +34,6 @@ typecheck = component $ doCheck
 doCheck :: Diag -> Feedback Diag
 doCheck d = do let (dChecked, errs) = typecheck_Syn_Diag (wrap_Diag (sem_Diag d) (Inh_Diag))
                if null errs then return ()
-               	            else do sequence $ map (warn_ . CCO.Types.show) errs
+               	            else do sequence $ map (error . CCO.Types.show) errs
                	            	    return ()
                return dChecked
