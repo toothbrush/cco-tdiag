@@ -21,9 +21,37 @@ The distribution tdiagrams-0.0.4 already included implementations of the parser 
 
 The choice was made to implement these functionalities in two separate Attribute Grammar (AG) files, in the already-present \texttt{Diag}-section. This would enable re-use of the already existing data structures for Diag, among other things. 
 
+To this end the two AG files, \texttt{Convert.ag} and \texttt{TypeCheck.ag} were added. Also, the file \texttt{AG.ag} in \texttt{src/CCO/Diag} was split into two files, one for building the convertor, and the other for building the type checker. This was to be able to include the Diag data structure definitions in both. 
+
+\section{Attribute grammars}
+
+The real work for the two tools \texttt{tc-tdiag} and \texttt{tdiag2picture} are done in the AG language, a language for doing syntax-driven computations. That is, the language provides a natural way to do computations on tree-like structures, by allowing the user to define semantic functions for the constructors of a data structure; for example \emph{Cons} and \emph{Nil}, in the case of a list. This means that for the task at hand, traversing a T-Diagram tree, AG are an elegant way of solving the problem, since both type-checking and converting involve transforming the tree.
+
+In the next two subsections a slightly more detailed description will be given about how the AGs are implemented. 
+
+\subsection{Type checking}
+
+\subsection{Converting}
+
+
 
 \section{Files}
 
+The following files (excluding documentation and examples) are new in the distribution. 
+
+\begin{itemize}
+    \item \texttt{src/TCTDiag.hs} -- Small IO wrapper which calls the \texttt{typecheck} function from \emph{CCO.Diag.TypeCheck}. 
+    \item \texttt{src/TDiag2Picture.hs} -- Another small IO wrapper which calls \texttt{convert} in \emph{CCO.Diag}.
+    \item \texttt{src/CCO/Types.hs} -- Contains some type aliases and a simple error data structure. Also instantiates \emph{TypeError} as \emph{Showable}, for outputting the errors which were found. 
+    \item \texttt{src/CCO/Diag/ConvertAG.ag} -- Empty include file to generate the Convert AG.
+    \item \texttt{src/CCO/Diag/Convert.hs} -- Defines a \emph{Component}, which just calls the AG semantic function \emph{toPicture}. 
+    \item \texttt{src/CCO/Diag/TypeCheckAG.ag} -- Empty include file to generate the TypeCheck AG.
+    \item \texttt{src/CCO/Diag/TypeCheck.hs} -- Defines a \emph{Component}, which calls the AG function \emph{typecheck} and prints any errors found.
+    \item \texttt{src/CCO/Diag/AG/Convert.ag} -- The actual AG where the conversion from \emph{Diag} to \emph{Picture} is done. 
+    \item \texttt{src/CCO/Diag/AG/TypeCheck.ag} -- The AG where the type checking is implemented.
+\end{itemize}
+
+Considering that the modifications to the other files that were already included in the distribution are very minor, these won't be explained in detail. 
 
 
 
