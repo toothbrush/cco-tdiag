@@ -13,11 +13,11 @@ import Debug.Trace
 
 attr Diag 
     syn typecheck   :: {(Diag, [TypeError])}
-    syn thetype     :: {Ident}
+    syn thetype     :: {Func}
     syn category    :: {Ident}
 
 attr Diag_
-    syn thetype     :: {Ident} -- Ident is the "inferred type"
+    syn thetype     :: {Func} -- Ident is the "inferred type"
     syn typecheck   :: {(Diag_, [TypeError])}
     syn category    :: {Ident}
     inh pos         :: {SourcePos}
@@ -31,16 +31,16 @@ sem Diag
 sem Diag_ 
   -- simple, never badly typed
     | Program     lhs.typecheck = (Program @p @l , [])
-                  lhs.thetype   = @l
+                  lhs.thetype   = ("",@l)
                   lhs.category  = "program"
     | Platform    lhs.typecheck = (Platform @m, [])
-                  lhs.thetype   = @m
+                  lhs.thetype   = ("", @m)
                   lhs.category  = "platform"
     | Interpreter lhs.typecheck = (Interpreter @i @l @m, [])
-                  lhs.thetype   = @l
+                  lhs.thetype   = (@l, @m)
                   lhs.category  = "interpreter"
     | Compiler    lhs.typecheck = (Compiler @c @l1 @l2 @m, [])
-                  lhs.thetype   = @l2
+                  lhs.thetype   = (@l1, @l2)
                   lhs.category  = "compiler"
   -- these need help.
     | Execute     lhs.typecheck = (Execute (fst @d1.typecheck) (fst @d2.typecheck)
@@ -49,21 +49,28 @@ sem Diag_
                                                 ++ (snd @d1.typecheck)
                                                 ++ (snd @d2.typecheck)
                                            )
-                  lhs.thetype   = "execution" -- this shouldn't happen.
+                  lhs.thetype   = ("prog", "execution") -- this shouldn't happen.
                   lhs.category  = "execute"
     | Compile     lhs.typecheck = (Compile (fst @d1.typecheck) (fst @d2.typecheck)
-                                           , [] 
+                                           , checkCompilation @lhs.pos @d1.thetype @d2.thetype
                                                 ++ (snd @d1.typecheck)
                                                 ++ (snd @d2.typecheck)
                                            )
-                  lhs.thetype   = @d2.thetype -- return the type of the compiler's output.
+                  lhs.thetype   = ("", snd @d2.thetype) -- return the type of the compiler's output.
                   lhs.category  = "compile"
 
 {
-checkExecution :: SourcePos -> Ident -> Ident -> [TypeError]
-checkExecution pos prog plat = 
-                               if prog /= plat then 
-                                  [Err pos ("Cannot execute "++ prog ++", expecting " ++ plat)] 
+checkCompilation :: SourcePos -> Func -> Func -> [TypeError]
+checkCompilation pos (from1, to1) (from2, to2) = Debug.Trace.trace ("compiling "++to1++", compiler = "++from2) (
+                               if to1 /= from2 then 
+                                  [Err pos ("Cannot compile "++ to1 ++", expecting " ++ from2)] 
+                                 else []
+                                 	 )
+
+checkExecution :: SourcePos -> Func -> Func -> [TypeError]
+checkExecution pos (from1,to1) (from2,to2) = 
+                               if to1 /= from2 then 
+                                  [Err pos ("Cannot execute "++ to1 ++", expecting " ++ from2)] 
                                  else []
 
 checkPlatform :: SourcePos -> Ident -> Ident -> [TypeError]
