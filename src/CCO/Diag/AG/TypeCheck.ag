@@ -14,8 +14,9 @@ attr Diag
     syn typecheck   :: {(Diag, [TypeError])}
 
 attr Diag_
+    syn thetype     :: {Ident} -- Ident is the "inferred type"
     syn typecheck   :: {(Diag_, [TypeError])}
-    inh pos :: {SourcePos}
+    inh pos         :: {SourcePos}
 
 sem Diag
     -- inherit
@@ -25,10 +26,28 @@ sem Diag
 sem Diag_ 
   -- simple, never badly typed
     | Program     lhs.typecheck = (Program @p @l , [])
+                  lhs.thetype   = @l
     | Platform    lhs.typecheck = (Platform @m, [])
+                  lhs.thetype   = @m
     | Interpreter lhs.typecheck = (Interpreter @i @l @m, [])
+                  lhs.thetype   = @l
     | Compiler    lhs.typecheck = (Compiler @c @l1 @l2 @m, [])
+                  lhs.thetype   = @l2
   -- these need help.
-    | Execute     lhs.typecheck = (Execute (fst @d1.typecheck) (fst @d2.typecheck), [])
-    | Compile     lhs.typecheck = (Compile (fst @d1.typecheck) (fst @d2.typecheck), [])
+    | Execute     lhs.typecheck = (Execute (fst @d1.typecheck) (fst @d2.typecheck)
+                                           , checkExecution @d1.thetype @d2.thetype
+                                                ++ (snd @d1.typecheck)
+                                                ++ (snd @d2.typecheck)
+                                           )
+                  lhs.thetype   = undefined
+    | Compile     lhs.typecheck = (Compile (fst @d1.typecheck) (fst @d2.typecheck)
+                                           , [] 
+                                                ++ (snd @d1.typecheck)
+                                                ++ (snd @d2.typecheck)
+                                           )
+                  lhs.thetype   = undefined
 
+{
+	checkExecution :: Ident -> Ident -> [TypeError]
+	checkExecution prog plat = []
+}
