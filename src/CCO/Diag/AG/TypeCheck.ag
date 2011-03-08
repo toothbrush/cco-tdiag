@@ -8,10 +8,12 @@ import CCO.Diag.GeneratePictures
 import CCO.Tree.Parser      (parseTree, app, arg)
 import CCO.Types
 import Control.Applicative  (Applicative ((<*>)), (<$>))
+import Debug.Trace
 }
 
 attr Diag 
     syn typecheck   :: {(Diag, [TypeError])}
+    syn thetype     :: {Ident}
 
 attr Diag_
     syn thetype     :: {Ident} -- Ident is the "inferred type"
@@ -35,7 +37,7 @@ sem Diag_
                   lhs.thetype   = @l2
   -- these need help.
     | Execute     lhs.typecheck = (Execute (fst @d1.typecheck) (fst @d2.typecheck)
-                                           , checkExecution @d1.thetype @d2.thetype
+                                           , checkExecution @lhs.pos @d1.thetype @d2.thetype
                                                 ++ (snd @d1.typecheck)
                                                 ++ (snd @d2.typecheck)
                                            )
@@ -48,6 +50,10 @@ sem Diag_
                   lhs.thetype   = undefined
 
 {
-	checkExecution :: Ident -> Ident -> [TypeError]
-	checkExecution prog plat = []
+checkExecution :: SourcePos -> Ident -> Ident -> [TypeError]
+checkExecution pos prog plat = Debug.Trace.trace ("execute " ++ prog ++ " on " ++ plat) 
+                                   (if prog /= plat then 
+                                      [Err pos ("Cannot execute "++ prog ++", expecting " ++ plat)] 
+                                     else []
+                                   )
 }
