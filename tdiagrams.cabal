@@ -17,12 +17,17 @@ homepage:              http://www.cs.uu.nl/wiki/Cco/MiniProjects
 tested-with:           GHC == 6.8.2, GHC == 6.8.3, GHC == 6.10.1
 build-type:            Simple
 cabal-version:         >= 1.4
-extra-source-files:    AUTHORS, Makefile, src/CCO/Diag/TypeCheckAG.ag,
-                       README, src/CCO/Diag/ConvertAG.ag
-                       src/CCO/Diag/AG/Base.ag, src/CCO/Picture/AG.ag,
-                       src/CCO/Picture/AG/Base.ag, src/CCO/Diag/AG/Convert.ag,
+extra-source-files:    AUTHORS, 
+                       Makefile, 
+                       README, 
+                       src/CCO/Diag/TypeCheckAG.ag
+                       src/CCO/Diag/ConvertAG.ag
+                       src/CCO/Diag/AG/Base.ag, 
+                       src/CCO/Diag/AG/Convert.ag,
+                       src/CCO/Diag/AG/TypeCheck.ag,
+                       src/CCO/Picture/AG.ag,
+                       src/CCO/Picture/AG/Base.ag, 
                        src/CCO/Picture/AG/Printing.ag
-                       doc/design.tex, doc/design.pdf
 data-files:            example1.tdiag
                        example2.tdiag
                        example3.tdiag
@@ -33,6 +38,8 @@ data-files:            example1.tdiag
                        badexample1.tdiag
                        badexample2.tdiag
                        badexample3.tdiag
+                       doc/design.tex
+                       doc/design.pdf
                        badexample4.tdiag
 
 executable parse-tdiag

@@ -16,5 +16,5 @@ main =
 
 -- | This function takes an abstract Diag tree and converts is into an ATerm
 diag2Aterm :: Component Diag ATerm
-diag2Aterm = component (\inp -> do trace_ "Converting Diag to ATerm..."
+diag2Aterm = component (\inp -> do trace_ "Checking type correctness..."
                                    return $ fromTree inp)
