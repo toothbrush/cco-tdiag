@@ -9,43 +9,53 @@
 -- Portability :  portable
 --
 -- A bunch of functions for generating LaTeX code for a given
--- compiler primitive.
+-- compiler primitive. Also contains code for determining the size of
+-- a diagram.
 --
 -------------------------------------------------------------------------------
 
 module CCO.Diag.GeneratePictures (
     -- * Generators
-    program,
-    platform,
-    interpreter,
-    compiler,
     execute,
     compile,
+    -- * Size calculators
     sizeCompile,
-    sizeExecute
+    sizeExecute,
+    -- * Boring lists of Picture objects
+    interpreter,
+    program,
+    platform,
+    compiler,
 ) where
 
 import CCO.Picture
 import CCO.Picture.AG
 import CCO.Types
 
+-- | The size of a compile-with block is calculated by adding the sizes of
+-- the constituent components. 
 sizeCompile :: Picture -> Picture -> (Double, Double)
 sizeCompile (Picture (w1,h1) cs1) (Picture (w2,h2) cs2) = (w1 + w2 + 50, max h1 h2 +15)
 
+-- | The size of an execution block is just the size of the two blocks 
+-- placed one on top of the other.
 sizeExecute :: Picture -> Picture -> (Double, Double)
 sizeExecute (Picture (w1,h1) cs1) (Picture (w2,h2) cs2) = (max w1 w2, h1+h2)
 
+-- | Compiling takes the pictures for both blocks, and shifts the one up a little.
 compile :: (Double,Double) -> Picture -> Picture -> Commands
 compile (x,y) (Picture (w1,h1) cs1) (Picture (w2,h2) cs2) = cs
         where cs = cs1 ++ (map fLeft cs2) 
               fLeft   (Put (posx, posy) o) = Put (w1 + posx -7.5 ,posy   ) o
 
+-- | Execution is done by placing one block above the other. 
 execute :: (Double,Double) -> Picture -> Picture -> Commands
 execute (x,y) (Picture (w1,h1) cs1) (Picture (w2,h2) cs2) = cs
         where cs = (map fLeft cs2) ++ (map fHeight cs1)
               fHeight (Put (posx, posy) o) = Put (posx      ,posy+10) o
               fLeft   (Put (posx, posy) o) = Put (-7.5+ posx + w1 - w2 ,posy   ) o
 
+-- | The following functions just make boxes and shapes by joining lines. 
 interpreter :: (Double,Double) -> Ident -> Ident -> Ident -> Commands
 interpreter (x,y) i l m = 
               [ Put (x+  0, y+ 0) (Framebox (50,30) [])

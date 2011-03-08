@@ -8,7 +8,8 @@
 -- Stability   :  provisional
 -- Portability :  portable
 --
--- T-diagrams.
+-- T-diagrams. This was part of the source distribution, and just exports a few
+-- data types.
 --
 -------------------------------------------------------------------------------
 
