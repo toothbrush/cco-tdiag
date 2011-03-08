@@ -37,7 +37,7 @@ For documentation:
 
 $ cabal haddock
 
-Documentation gets placed in dist/doc/html/tdiagrams/*/index.html (this is a good starting
+Documentation gets placed in dist/doc/html/tdiagrams/index.html (this is a good starting
 point). To try out the various examples, assuming you have run `cabal install`, try 
 the following:
 
@@ -119,7 +119,7 @@ This can be obtained by running
 
 $ cabal haddock
 
-and opening the resulting file, dist/doc/html/tdiagrams/*/index.html. This file includes
+and opening the resulting file, dist/doc/html/tdiagrams/index.html. This file includes
 an introduction as well as links to the rest of the documentation.
 
 There is also a design document, giving more of an executive summary than can be gleaned
