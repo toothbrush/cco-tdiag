@@ -3,3 +3,4 @@ test.*
 *.aux
 *.log
 complete.pdf
+doc/design.pdf

@@ -10,10 +10,16 @@
 
 \section{Introduction}
 
-This document explains briefly what the layout of the source code is of the tools which constitute the \texttt{tdiagrams} suite. Here the changed or added files are also presented, since this work is based on the tdiagrams-0.0.4 package by Stefan Holdermans. 
+This document explains briefly what the layout of the source code is of the
+tools which constitute the \texttt{tdiagrams} suite. Here the changed or added
+files are also presented, since this work is based on the tdiagrams-0.0.4
+package by Stefan Holdermans. 
 
 \section{General info}
 
+The distribution tdiagrams-0.0.4 already included implementations of the parser and pretty printer (\texttt{parse-tdiag} and \texttt{pp-picture}, respectively), so all that remained to be done was to implement the tools \texttt{tc-tdiag}, which should type check a T-Diagram, and \texttt{tdiag2picture} which would generate \LaTeX\ code for a given T-Diagram.
+
+The choice was made to implement these functionalities in two separate Attribute Grammar (AG) files, in the already-present \texttt{Diag}-section. This would enable re-use of the already existing data structures for Diag, among other things. 
 
 
 \section{Files}
