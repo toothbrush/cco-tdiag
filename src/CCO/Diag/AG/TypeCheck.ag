@@ -2,28 +2,33 @@ imports
 {
 import CCO.SourcePos        (SourcePos)
 import CCO.Tree             (ATerm (App), Tree (fromTree, toTree))
+import CCO.Feedback
 import CCO.Picture.AG
 import CCO.Diag.GeneratePictures
 import CCO.Tree.Parser      (parseTree, app, arg)
+import CCO.Types
 import Control.Applicative  (Applicative ((<*>)), (<$>))
 }
 
 attr Diag 
-    syn typecheck   :: Diag
+    syn typecheck   :: {(Diag, [TypeError])}
 
 attr Diag_
-    syn typecheck   :: Diag_
+    syn typecheck   :: {(Diag_, [TypeError])}
+    inh pos :: {SourcePos}
 
 sem Diag
-    | Diag lhs.typecheck = Diag @pos @d.typecheck
-
+    -- inherit
+    | Diag d  .pos = @pos
+    | Diag lhs.typecheck = (Diag @pos (fst @d.typecheck), snd @d.typecheck)
 
 sem Diag_ 
-  -- simple 
-    | Program     lhs.typecheck = Program @p @l
-    | Platform    lhs.typecheck = Platform @m
-    | Interpreter lhs.typecheck = Interpreter @i @l @m
-    | Compiler    lhs.typecheck = Compiler @c @l1 @l2 @m
-    | Execute     lhs.typecheck = Execute @d1.typecheck @d2.typecheck
-    | Compile     lhs.typecheck = Compile @d1.typecheck @d2.typecheck
+  -- simple, never badly typed
+    | Program     lhs.typecheck = (Program @p @l , [])
+    | Platform    lhs.typecheck = (Platform @m, [])
+    | Interpreter lhs.typecheck = (Interpreter @i @l @m, [])
+    | Compiler    lhs.typecheck = (Compiler @c @l1 @l2 @m, [])
+  -- these need help.
+    | Execute     lhs.typecheck = (Execute (fst @d1.typecheck) (fst @d2.typecheck), [])
+    | Compile     lhs.typecheck = (Compile (fst @d1.typecheck) (fst @d2.typecheck), [])
 
