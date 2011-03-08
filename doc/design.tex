@@ -47,11 +47,22 @@ For the cases compile and execute, functions are called to check if \texttt{d1} 
 
 \subsection{Converting}
 
+The conversion AG has the following attributes.
+
+\begin{itemize}
+    \item \texttt{toPicture} -- the main function which does the traversal and returns a \emph{Picture}.
+    \item \texttt{cpinf} -- information for a program which is the result of compilation.
+    \item \texttt{size} -- the dimensions of a given block. 
+    \item \texttt{origin}, inherited -- the $(x,y)$ offset at which to draw an object.
+\end{itemize}
+
+The toPicture function is the main worker. It traverses the tree, and calls the \LaTeX\-generating functions which can be found in \emph{CCO.Diag.GeneratePictures}. Most of these functions just generate a bunch of lines and the text for the block, only the \texttt{execute} and \texttt{compile} functions are a bit more interesting, as they need to join two blocks together, although this is accomplished relatively easily using the \emph{size} attribute that each diagram has. 
+
 
 
 \section{Files}
 
-The following files (excluding documentation and examples) are new in the distribution. 
+The following files (excluding documentation and examples) are new in the distribution. This should make it easier to see what has changed with respect to the original example distribution. 
 
 \begin{itemize}
     \item \texttt{src/TCTDiag.hs} -- Small IO wrapper which calls the \texttt{typecheck} function from \emph{CCO.Diag.TypeCheck}. 
