@@ -14,46 +14,62 @@ import Debug.Trace
 attr Diag 
     syn typecheck   :: {(Diag, [TypeError])}
     syn thetype     :: {Ident}
+    syn category    :: {Ident}
 
 attr Diag_
     syn thetype     :: {Ident} -- Ident is the "inferred type"
     syn typecheck   :: {(Diag_, [TypeError])}
+    syn category    :: {Ident}
     inh pos         :: {SourcePos}
 
 sem Diag
     -- inherit
     | Diag d  .pos = @pos
+    | Diag lhs.category = @d.category
     | Diag lhs.typecheck = (Diag @pos (fst @d.typecheck), snd @d.typecheck)
 
 sem Diag_ 
   -- simple, never badly typed
     | Program     lhs.typecheck = (Program @p @l , [])
                   lhs.thetype   = @l
+                  lhs.category  = "program"
     | Platform    lhs.typecheck = (Platform @m, [])
                   lhs.thetype   = @m
+                  lhs.category  = "platform"
     | Interpreter lhs.typecheck = (Interpreter @i @l @m, [])
                   lhs.thetype   = @l
+                  lhs.category  = "interpreter"
     | Compiler    lhs.typecheck = (Compiler @c @l1 @l2 @m, [])
                   lhs.thetype   = @l2
+                  lhs.category  = "compiler"
   -- these need help.
     | Execute     lhs.typecheck = (Execute (fst @d1.typecheck) (fst @d2.typecheck)
                                            , checkExecution @lhs.pos @d1.thetype @d2.thetype
+                                                ++ checkPlatform @lhs.pos @d1.category @d2.category
                                                 ++ (snd @d1.typecheck)
                                                 ++ (snd @d2.typecheck)
                                            )
                   lhs.thetype   = "execution" -- this shouldn't happen.
+                  lhs.category  = "execute"
     | Compile     lhs.typecheck = (Compile (fst @d1.typecheck) (fst @d2.typecheck)
                                            , [] 
                                                 ++ (snd @d1.typecheck)
                                                 ++ (snd @d2.typecheck)
                                            )
-                  lhs.thetype   = @d2.thetype
+                  lhs.thetype   = @d2.thetype -- return the type of the compiler's output.
+                  lhs.category  = "compile"
 
 {
 checkExecution :: SourcePos -> Ident -> Ident -> [TypeError]
-checkExecution pos prog plat = Debug.Trace.trace ("execute " ++ prog ++ " on " ++ plat) 
-                                   (if prog /= plat then 
-                                      [Err pos ("Cannot execute "++ prog ++", expecting " ++ plat)] 
-                                     else []
-                                   )
+checkExecution pos prog plat = 
+                               if prog /= plat then 
+                                  [Err pos ("Cannot execute "++ prog ++", expecting " ++ plat)] 
+                                 else []
+
+checkPlatform :: SourcePos -> Ident -> Ident -> [TypeError]
+checkPlatform pos d1 d2 = concat 
+                          [ if d1 == "platform" then [Err pos "Cannot execute a platform"]    else []
+                          , if d2 == "program"  then [Err pos "Cannot execute on a program"]  else []
+                          , if d2 == "compiler" then [Err pos "Cannot execute on a compiler"] else []
+                          ]
 }

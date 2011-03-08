@@ -1,0 +1,5 @@
+execute
+    program hello in Haskell
+on
+    program die in Whitespace
+end
