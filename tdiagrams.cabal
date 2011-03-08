@@ -57,3 +57,11 @@ executable tdiag2picture
   build-depends:       base, cco >= 0.0.4, uuagc
   other-modules:       CCO.Diag, CCO.Diag.ConvertAG, CCO.Diag.Base, CCO.Diag.GeneratePictures
   hs-source-dirs:      src
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     CCO.Types
+                       CCO.Diag.Convert
+                       CCO.Diag.GeneratePictures
+                       CCO.Diag.TypeCheck
+                       CCO.Diag.TypeCheckFunctions

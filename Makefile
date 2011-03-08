@@ -16,7 +16,7 @@ src/CCO/Picture/AG.hs : src/CCO/Picture/AG.ag src/CCO/Picture/AG/Base.ag \
 	uuagc -Hdcfws -P src/CCO/Picture src/CCO/Picture/AG.ag
 
 documentation:
-	cabal haddock --executables
+	cabal haddock
 	pdflatex -output-directory=doc doc/design.tex 
 
 haskell : src/CCO/Diag/TypeCheckAG.hs src/CCO/Diag/ConvertAG.hs src/CCO/Picture/AG.hs
