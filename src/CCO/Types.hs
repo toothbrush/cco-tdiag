@@ -5,3 +5,4 @@ module CCO.Types where
     type Ident = String
     type Message = String
     data TypeError = Err SourcePos Message
+                     deriving Show
