@@ -17,7 +17,7 @@ src/CCO/Picture/AG.hs : src/CCO/Picture/AG.ag src/CCO/Picture/AG/Base.ag \
 
 documentation:
 	cabal haddock --executables
-	pdflatex doc/design.tex -output-directory=doc
+	pdflatex -output-directory=doc doc/design.tex 
 
 haskell : src/CCO/Diag/TypeCheckAG.hs src/CCO/Diag/ConvertAG.hs src/CCO/Picture/AG.hs
 	runhaskell Setup.lhs configure $(CABAL-CONFIGURE-FLAGS)
