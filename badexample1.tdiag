@@ -1,0 +1,5 @@
+execute
+    platform i686-windows
+on
+    interpreter hugs for Haskell in i686-linux
+end
