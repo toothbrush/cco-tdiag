@@ -49,11 +49,11 @@ executable pp-picture
 executable tc-tdiag
   main-is:             TCTDiag.hs
   build-depends:       base, cco >= 0.0.4, uuagc
-  other-modules:       CCO.Diag, CCO.Diag.TypeCheckAG, CCO.Diag.Base
+  other-modules:       CCO.Diag, CCO.Diag.TypeCheckAG, CCO.Diag.Base, CCO.Diag.TypeCheckFunctions
   hs-source-dirs:      src
 
 executable tdiag2picture
   main-is:             TDiag2Picture.hs
   build-depends:       base, cco >= 0.0.4, uuagc
-  other-modules:       CCO.Diag, CCO.Diag.ConvertAG, CCO.Diag.Base
+  other-modules:       CCO.Diag, CCO.Diag.ConvertAG, CCO.Diag.Base, CCO.Diag.GeneratePictures
   hs-source-dirs:      src
