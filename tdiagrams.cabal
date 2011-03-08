@@ -2,7 +2,9 @@ name:                  tdiagrams
 version:               0.0.4
 synopsis:              Utilities for drawing T-diagrams in LaTeX
 description:           Project distribution for Mini Project B of the course on
-                       Compiler Construction (INFOMCCO) at Utrecht University.
+                       Compiler Construction (INFOMCCO) at Utrecht University. The
+                       AG files don't include Haddock, as this is parsed incorrectly. 
+                       See the included file doc/design.pdf for more information.
 license:               MIT
 license-file:          LICENSE
 category:              Compilers/Interpreters
