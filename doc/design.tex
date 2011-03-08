@@ -31,6 +31,8 @@ In the next two subsections a slightly more detailed description will be given a
 
 \subsection{Type checking}
 
+
+
 \subsection{Converting}
 
 
@@ -45,6 +47,8 @@ The following files (excluding documentation and examples) are new in the distri
     \item \texttt{src/CCO/Types.hs} -- Contains some type aliases and a simple error data structure. Also instantiates \emph{TypeError} as \emph{Showable}, for outputting the errors which were found. 
     \item \texttt{src/CCO/Diag/ConvertAG.ag} -- Empty include file to generate the Convert AG.
     \item \texttt{src/CCO/Diag/Convert.hs} -- Defines a \emph{Component}, which just calls the AG semantic function \emph{toPicture}. 
+    \item \texttt{src/CCO/Diag/GeneratePictures.hs} -- Defines a few helper functions for generating \LaTeX\ code from Diag properties.
+    \item \texttt{src/CCO/Diag/TypeCheckFunctions.hs} -- Defines a few helper functions for checking the type constraints on \emph{Diag} trees. 
     \item \texttt{src/CCO/Diag/TypeCheckAG.ag} -- Empty include file to generate the TypeCheck AG.
     \item \texttt{src/CCO/Diag/TypeCheck.hs} -- Defines a \emph{Component}, which calls the AG function \emph{typecheck} and prints any errors found.
     \item \texttt{src/CCO/Diag/AG/Convert.ag} -- The actual AG where the conversion from \emph{Diag} to \emph{Picture} is done. 
