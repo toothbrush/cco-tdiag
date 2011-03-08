@@ -60,49 +60,48 @@ To do this though, you will need to wrap the output in a
 format. The T-Diagram process may take a while, so don't be surprised if it's
 not finished after 5 seconds. 
 
+There are also files called 'badexample?.tdiag', these cntain various errors and are 
+supposed to fail type checking. 
+
 -------------------------------------------------------------------------------------------
 
 EXAMPLES
 
-A number of examples are included, see ./example?.tdiag, the specifics of each examle
-will be explained in the comments. The examples illustrate the features of this 
-implementation of tdiagrams. 
+A number of examples are included, see ./example?.tdiag, the examples
+illustrate the features of this implementation of tdiagrams. Examples 1-4 just
+use the primitive building blocks, examples 5 and 6 show the use of compilation
+and execution, and example 7 illustrates the composition of diagrams. The bad
+examples (1-4) illustrate the following errors, respectively:
+
+1. Attempting to execute a platform,
+2. Executing anything on a program,
+3. Executing a program on a compiler or interpreter of the incorrect type,
+4. Compiling a platform.
 
 -------------------------------------------------------------------------------------------
 
-###
-# TODO change from here on
-
-
 FOR THE PATIENT (or the more curious)
 
-Note that instead of a Makefile, Cabal's more advanced build system is used. This solves a 
-lot of ugly things one runs into when using Makefiles for a small Haskell project.
+The included Makefile takes care of generating Haskell from the Attribute
+Grammar (AG) sources, then runs the usual cabal {configure,make} incantation.
+Just running `make' should be sufficient to get a working toolset. Try `cabal
+haddock' to see the online generated Haddock documentation, where the details
+are given which aren't covered in the design docs. 
 
 Features
 
-This implementation of BibTeX2HTML is not comprehensive, i.e. there are some aspects of 
-the BibTeX DSL that aren't handled yet, but it provides a very reasonable subset of the 
-BibTeX features, and the author believes that it is useful for most mainstream databases.
-The most notable features are listed below.
+This implementation supports the basic T-Diagram features, which are:
 
-* Warns about unknown fields, and hides these
-* Checks that required fields are filled in
-* Forgiving parsing, thanks to use of UU-Parsinglib
-* Supports year-field without quotes
-* Support for the @preamble construct
-* Automatic sorting of fields within entries, and entries themselves
-* Checks for duplicate keys (and only displays first definition)
-* Allows for comments (% ...), both after code and on their own line
-* Filters duplicate fields in entries (i.e. "author" defined twice)
-* Warnings for all detected errors
+* Converting any valid T-Diagram into LaTeX code
+* Support for arbitrary nesting of diagrams
+* Type checking (including language compatibility and block-compatibility, i.e.
+  one cannot compile an execution)
 
 In a future version, possibilities for improvement include:
 
-* Support for escaping characters
-* Automatic formatting of authors' names
-* Nicer hyperlinks (i.e. Johnson 2002 -> [J02])
-* Support for variables (@string) 
+* Support for comments in .tdiag files
+* Support binding diagrams to variables
+* Improve type checking method (get rid of useless category attribute)
 
 Requirements:
 
@@ -110,8 +109,7 @@ This package has been tested on Mac OS X.6 and Linux 2.6.35, using GHC6.12.3 and
 Also required are at least the following packages (can be obtained via the Haskell Cabal):
 
 - cco
-- uu-parsinglib
-- haskell98
+- uuagc
 
 Documentation:
 
@@ -121,11 +119,12 @@ This can be obtained by running
 
 $ cabal haddock
 
-and opening the resulting file, dist/doc/html/bibtex2html/index.html. This file includes
-an introduction as well as links to the rest of the documentation. For completeness, a
-PDF version of the Haddock documentation is included, but the recommendation is to 
-use the HTML version. The PDF version of Haddock can be found in ./haddock.pdf. It can be
-generated from source by running:
+and opening the resulting file, dist/doc/html/tdiagrams/index.html. This file includes
+an introduction as well as links to the rest of the documentation.
 
-$ cd latex-doc/
-$ pdflatex main
+There is also a design document, giving more of an executive summary than can be gleaned
+from the Haddock. This can be generated with
+
+$ make documentation
+
+Afterwards, open the file doc/design.pdf
