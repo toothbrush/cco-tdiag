@@ -6,4 +6,11 @@ module CCO.Types where
     type Func = (Ident, Ident)
     type Message = String
     data TypeError = Err SourcePos Message
-                     deriving Show
+
+    instance Show TypeError
+    show (Err (SourcePos f (Pos x y)) msg) = "In " ++ 
+                                             Prelude.show f ++ 
+                                             ":" ++ 
+                                             Prelude.show x ++ "," ++ 
+                                             Prelude.show y ++ ": " ++ 
+                                             msg
